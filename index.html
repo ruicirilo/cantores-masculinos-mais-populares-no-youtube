@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos mais populares de artistas masculinos</title>
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('/scrape');
+                const data = await response.json();
+                console.log(data);  // Para verificar no console
+
+                const videoList = document.getElementById('video-list');
+                videoList.innerHTML = '';  // Limpa a lista anterior
+
+                // Verifique se há dados antes de tentar exibir
+                if (data.length > 0) {
+                    data.forEach(row => {
+                        const title = row[0];
+                        const views = row[1];
+                        const likes = row[2];
+                        const videoLink = `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`;  // Link para pesquisa do YouTube
+
+                        const videoItem = document.createElement('div');
+                        videoItem.innerHTML = `
+                            <strong>${title}</strong><br>
+                            Visualizações: ${views}<br>
+                            Likes: ${likes}<br>
+                            <a href="${videoLink}" target="_blank">Ver no YouTube</a><br>
+                            <hr>
+                        `;
+                        videoList.appendChild(videoItem);
+                    });
+                } else {
+                    videoList.textContent = 'Nenhum dado encontrado.';
+                }
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
+            }
+        }
+
+        window.onload = fetchData;  // Chama a função quando a página é carregada
+    </script>
+</head>
+<body>
+    <h1>Videos mais populares de artistas masculinos</h1>
+    <div id="video-list">Carregando...</div>
+</body>
+</html>
+
+
+
+
+
+

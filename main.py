@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, jsonify
 import requests
 from bs4 import BeautifulSoup
 
@@ -6,7 +6,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # Lê o arquivo HTML na raiz do projeto
+    with open('index.html', 'r', encoding='utf-8') as f:
+        return f.read()
 
 @app.route('/scrape')
 def scrape():
@@ -31,3 +33,18 @@ def scrape():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
